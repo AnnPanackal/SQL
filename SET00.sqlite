@@ -1,0 +1,59 @@
+1)Select the Employee with the top three salaries
+select * from employee order by salary desc limit 3;
+
+2)Select the Employee with the least salary
+select * from employee order by salary limit 1;
+
+3)Select the Employee who does not have a manager in the department table
+select  * from employee e where  e.DEP_ID not in (select DEP_ID from dept);
+
+4)Select the Employee who is also a Manager
+select * from employee e inner join dept on e.name like dept.DEP_MANAGER;
+
+5)Select the Empolyee who is a Manager and has least salary
+select e_id,name,min(salary) from employee e inner join dept on e.name like dept.DEP_MANAGER;
+
+6)Select the total number of Employees in Communications departments
+select count(name) from employee e,dept d where e.dep_ID like d.dep_id and d.DEP_NAME like "COMMUNICATIONS";
+
+7)Select the Employee in Finance Department who has the top salary
+select e_id,name,dep_id,max(salary) from employee where dep_id like "D05";
+
+8)Select the Employee in product depatment who has the least salary
+select e_id,name,dep_id,min(salary) from employee where employee.DEP_ID = (select dep_id from dept where dept.DEP_NAME like "PRODUCT"); 
+
+9)Select the count of Empolyees in Health with maximum salary
+select count(name),name,max(salary) from employee where employee.DEP_ID = (select dep_id from dept where dept.DEP_NAME like "HEALTH");
+
+10)Select the Employees who report to Natasha Stevens
+select e_id,name from employee where employee.MANAGER = (select employee.E_ID from employee where employee.NAME like "NATASHA STEVENS");
+
+11)Display the Employee name,Employee count,Dep name,Dept manager in the Health department
+select e.name,e_id employee_count,d.dep_name,d.dep_manager from employee e join dept d on d.dep_id=e.dep_id where e.dep_id='D01';
+
+12)Display the Department id,Employee ids and Manager ids for the Communications department
+select e.DEP_ID, e.E_ID, e.MANAGER from employee e where e.dep_id = 'D02';
+
+13)Select the Average Expenses for Each dept with Dept id and Dept name
+select dept.DEP_ID,dept.DEP_NAME,avg(salary) Average from employee,dept on dept.DEP_ID = employee.DEP_ID group by dept.DEP_ID;
+
+14)Select the total expense for the department finance
+select dept.DEP_ID,dept.DEP_NAME,sum(salary) Total from employee,dept on dept.DEP_ID = employee.DEP_ID and dept.DEP_NAME = "FINANCE";
+
+15)Select the department which spends the least with Dept id and Dept manager name
+select dept.DEP_ID,dept.DEP_NAME,sum(salary) Total from employee,dept on dept.DEP_ID = employee.DEP_ID group by dept.DEP_NAME order by sum(salary) limit 1;
+
+16)Select the count of Employees in each department
+select count(name) No_of_Emp, dept.DEP_NAME from employee,dept where dept.DEP_ID = employee.DEP_ID group by dept.DEP_ID;
+
+17)Select the count of Employees in each department having salary <10000
+select count(name) No_of_Emp, dept.DEP_NAME from employee,dept where dept.DEP_ID = employee.DEP_ID and salary < 10000;
+
+18)Select the total number of Employees in Dept id D04
+select count(name) No_of_Emp from employee,dept where dept.DEP_ID = employee.DEP_ID and dept.DEP_ID like "D04";
+
+19)Select all department details of the Department with Maximum Employees
+select count(*) Max_Emp,dept.DEP_ID, dept.DEP_NAME,dept.DEP_MANAGER from employee,dept where dept.DEP_ID = employee.DEP_ID group by dept.DEP_ID order by count(name) desc limit 2;
+
+20)Select the Employees who has Tim Cook as their manager
+select e_id,name from employee where employee.MANAGER = (select employee.E_ID from employee where employee.NAME like "Tim Cook");

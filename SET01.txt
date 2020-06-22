@@ -1,0 +1,74 @@
+SQL set01:                          
+1.List full details of all hotels.
+  
+select * from hotel;
+
+
+2.List full details of all hotels in New York.
+
+select * from hotel where city like "New York";
+
+
+3.List the names and cities of all guests, ordered according to their cities.
+
+select name,city from guest order by city; 
+
+
+4.List all details for non-smoking rooms in ascending order of price.
+
+select * from room where type like "N" order by price;
+
+
+5.List the number of hotels there are.
+
+select count(hotel_no) Total_Hotels from hotel;
+
+
+6.List the cities in which guests live. Each city should be listed only once.
+
+select distinct(city) from guest;
+
+
+7.List the average price of a room.
+
+select avg(price) from room;
+
+
+8.List hotel names, their room numbers, and the type of that room.
+
+select h.name,r.room_no,r.type from hotel h join room r on h.hotel_no = r.hotel_no;
+
+
+9.List the hotel names, booking dates, and room numbers for all hotels in New York.
+
+select h.name,b.date_from,b.date_to,b.room_no from hotel h join booking b on h.hotel_no=b.hotel_no where h.city="New York";
+
+
+10.What is the number of bookings that started in the month of September?
+
+select count(date_from) Bookings from booking where date_from like "%SEP%";
+
+
+11.List the names and cities of guests who began a stay in New York in August.
+
+select g.name,g.city from guest g join booking b on g.guest_no = b.guest_no and b.date_from like "%AUG%" where b.hotel_no = (select hotel_no from hotel where city like "New York"); 
+
+
+12.List the hotel names and room numbers of any hotel rooms that have not been booked.
+
+select h.name,r.room_no from hotel h join room r on h.hotel_no = r.hotel_no where r.room_no not in (select booking.room_no from booking);
+
+
+13.List the hotel name and city of the hotel with the highest priced room.
+
+select h.name,h.city from hotel h join room r on h.hotel_no = r.hotel_no where r.price = (select max(price) from room);
+
+
+14.List hotel names, room numbers, cities, and prices for hotels that have rooms with prices lower than the lowest priced room in a Boston hotel.
+
+select h.name,r.room_no,h.city,r.price from hotel h join room r on h.hotel_no = r.hotel_no where r.price < (select min(r.price) from room r join hotel h on r.hotel_no = h.hotel_no and h.city like "Boston");
+
+
+15.List the average price of a room grouped by city.
+
+select *,avg(r.price) from room r join hotel h on r.hotel_no = h.hotel_no group by h.city;
