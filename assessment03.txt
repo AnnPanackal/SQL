@@ -1,0 +1,32 @@
+Ann Abraham Panackal
+11839843
+
+1.
+select * from publisher p join author a 
+on a.publish_id=p.publish_id 
+having p.publish_city<>a.author_city 
+where p.publish_city=a.author_country 
+
+2.
+select a.author_name, a.author_country, p.publish_city, p.publish_start_date, p.branches 
+from author a,publisher p where p.branches=(select max(branches) as max from publisher);
+
+3. 
+select * from publisher p join author a on p.publish_id=a.publish_id having a.author_city=p.publish_city ;
+
+
+4.
+
+5.
+select author_name 
+from author 
+where publish_id 
+not in (select publish_id from publisher);
+
+6.
+select * from author 
+where (select substr(author_name,1) from author) 
+in 
+(select substr(publisher_name,1) from publisher);
+
+7.

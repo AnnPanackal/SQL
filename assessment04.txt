@@ -1,0 +1,64 @@
+Ann Abraham Panackal
+11839843
+
+1.
+select d.dep_id,d.dept_name,e.emp_sal as salary,
+case when d.dept_id not in e.dept_id then e.emp_sal=0
+end as salary
+from department d join employee e on d.dept_id=e.dept_id group by dept_name;
+
+2.
+select d.dept_id,d.dept_name,sum(emp_sal) as sum_emp_sal,
+case when e.dept_id=3 then 'Others'
+end 
+from employee e join department d group by d.dept_id;
+
+3.
+select emp_id,emp_name,manager_id,salary from employee
+where salary>2700 and salary <10000;
+
+4.
+select manager_id,manager_name,sum(salary) over (partition by manager_id order by manager_id) as tot_salary from employee;
+
+5.
+select emp_id,substr(emp_name,4,length(emp_name)) as derv_emp_name from employee;
+
+6.
+select emp_id,substr(emp_name,instr(emp_name,'h',1,1),length(emp_name)) as derv_emp_name from employee;
+
+7.
+select emp_id,salary from employee order by salary desc limit 1,1;
+
+8.
+select emp_id,emp_name,distinct salary from employee e where 3>=(select count(distinct salary) from employee e1 where e.salary<=e1.salary) order by e.salary;
+
+9.
+select emp_id,emp_name,emp_salary from employee where (salary>3000 and dep_name='IT')
+or
+(salary>3400 and dep_name='Admin')
+
+10.
+select emp_id,emp_name,dept_name,salary from employee where emp_name like "%j%"
+
+11.
+select emp_id,emp_name,dept_name,salary from employee where emp_name like "%j%k%m%"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
