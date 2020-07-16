@@ -1,0 +1,48 @@
+Ann Abraham Panackal
+11839843
+
+1.
+select e.emp_id,e.emp_name,d.desc_name,p.place_desc,count(d.desc_id)as EMP_DESC_CNT,count(p.place_id)
+from employee e
+join designation d on e.desc_id=d.desc_id
+join place p on e.place_id=p.place_id;
+
+2.
+select e.emp_name,d.desc_name,p.place_desc,pr.proj_name
+from employee e
+join designation d on e.desc_id=d.desc_id
+join place p on e.place_id=p.place_id
+join project pr on pr.proj_id=e.proj_name where pr.proj_name like "%Data%" or pr.proj_name like "%Cloud%";
+
+3.
+select e.emp_name,d.desc_name,p.place_desc,pr.proj_name
+from employee e
+join designation d on e.desc_id=d.desc_id
+join place p on e.place_id=p.place_id
+join project pr on pr.proj_id=e.proj_name 
+group by p.desc_place
+having pr.proj=max(proj_id)
+
+4.
+select s.salesman_name,c.cust_name 
+from customer c
+join salesman s on c.salesman_id=s.salesman_id
+having c.priority_num=1
+where salesman_id in (select sales_manager_id from salesman);
+
+
+5.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

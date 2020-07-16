@@ -1,0 +1,85 @@
+select * from stats;
+select * from station;
+
+1.
+SELECT MONTH,max(RAIN_Inch) Highest_rainfall,max(TEMP_Farenheit) Hottest_temp
+FROM STATS;
+
+9	10.34	100.3
+
+2.
+select sn.station_id,sn.city,sn.state,ss.month,ss.year,((ss.temp_farenheit-32)*5/9) as Temp,ss.rain_inch *0397 as Rainfall
+from station sn
+join stats ss
+on sn.station_id=ss.stats_id;
+
+13	Phoenix	AZ	1	2010	14.11111111111111	123.07
+13	Phoenix	AZ	5	2010	33.16666666666666	2044.5500000000002
+13	Phoenix	AZ	9	2010	37.94444444444444	4104.98
+13	Phoenix	AZ	12	2010	-10.77777777777778	3310.98
+44	Denver	CO	2	2010	-2.61111111111111	71.46
+44	Denver	CO	6	2010	23.77777777777778	837.67
+44	Denver	CO	9	2010	-2.66666666666667	1369.65
+66	Caribou	ME	3	2010	-14.05555555555556	833.7
+66	Caribou	ME	7	2010	18.77777777777778	1794.4399999999998
+
+3.
+c
+4.
+select sn.state,ss.month,min(ss.temp_farenheit),max(ss.rain_inch) Min_rain,avg(rain_inch*100/ss.year) Avg_Rain
+from stats ss
+join station sn on ss.stats_id=sn.station_id;
+
+AZ	9	6.7	10.34	0.20176893311222
+
+5.
+select sn.city,sn.state,max(ss.rain_inch) Rain_below_avg
+from station sn
+join stats ss
+on ss.stats_id=sn.station_id
+having ss.rain_inch < avg(ss.rain_inch);
+
+Phoenix	AZ	10.34
+
+6.
+select sn.city,dense_rank() over (order by temp_farenheit) as rank
+from station sn
+join stats ss
+on ss.stats_id=sn.station_id
+having rank=2;
+
+7.
+create view ques3 as select stats_id,month,year,temp_farenheit,rain_inch,
+st_id,city,state,lat_n,long_w from stat t left join stats s on s.stats_id=t.station_id group by month having
+month in (select month from (SELECT month,case when month>=1 and month<=3 then 'q1'
+when month>=4 and month<=6 then 'q2' when month>=7 and month<=9 then 'q3'
+when month>=10 and month<=12 then 'q4' else 'q' end as q
+from stats group by q));
+
+[19:14:38] Query finished in 0.112 second(s).
+
+9.
+select stats_id 
+from stats 
+where (temp_farenheit-32)*5/9<0;
+
+13
+44
+44
+66
+
+10.
+select count(s.rain_inch),t.state 
+from stats s join  station t on s.stats_id=t.station_id 
+where s.rain_inch > (select avg(st.rain_inch) from stats st);
+
+4	ME
+
+
+
+
+
+
+
+
+

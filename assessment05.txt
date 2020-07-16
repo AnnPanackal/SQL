@@ -1,0 +1,160 @@
+Ann Abraham Panackal
+11839843
+
+1.
+select e.emp_id,e.emp_name,coalesce(d.desc_name,'Unknown Designation'),pl.place_desc,p.proj_name 
+from employee e
+join designation d on e.desc_id=d.desc_id
+join place pl on e.place_id=pl.place_id
+join project p on e.proj_id = p.proj_id;
+
+
+1	Vijaykumar	ASE	Chennai	Pepsi
+2	Raja	SE	Hyderabad	Microsoft
+3	Abhisheksingh	ASE	Mexico	Amazon
+4	Santosh	SSE	Bangalore	Cigna
+5	Kribakaran	SE	Hyderabad	ASG
+6	Divya	TL	Newyork	Pepsi
+7	Suganya	ASE	Hyderabad	Microsoft
+8	Shalini	SE	Bangalore	ASG
+9	Avantika	SSE	Chennai	Amazon
+
+
+2.
+select e.emp_id,e.emp_name,
+case when d.role_typ = 'DEVELOPER' and pl.place_typ = 'Offshore' then 'TEAMMEMBER'
+when d.role_typ='DEVELOPER' and pl.place_typ='NEARSHORE'then 'TEAMLEAD'
+when d.role_typ='DEVELOPER' and pl.place_typ='ONSHORE'then 'BA'
+when d.role_typ='LEAD' and pl.place_typ='ONSHORE'then 'SCRUMMASTER'
+when d.role_typ = 'MANAGER' then 'CONTRACTOR'
+else 'SHADOW'
+end as PROJECT_ROLE
+from employee e
+join designation d on e.desc_id=d.desc_id
+join place pl on e.place_id=pl.place_id;
+
+1	Vijaykumar	TEAMMEMBER
+2	Raja	TEAMMEMBER
+3	Abhisheksingh	SHADOW
+4	Santosh	TEAMMEMBER
+5	Kribakaran	TEAMMEMBER
+6	Divya	SHADOW
+7	Suganya	TEAMMEMBER
+8	Shalini	TEAMMEMBER
+9	Avantika	TEAMMEMBER
+
+
+
+3.
+select coalesce(d.desc_name,'Others') proj_name,coalesce(pl.place_desc,'Others') place_desc,coalesce(p.proj_name,'Others'), count(p.proj_name) Others 
+from employee e 
+join designation d on e.desc_id=d.desc_id
+join place pl on e.place_id=pl.place_id
+join project p on e.proj_id=p.proj_id
+group by d.desc_name,pl.place_desc,p.proj_name;
+
+
+4.
+select coalesce(e.emp_name,'Others'),coalesce(d.desc_name,'Others'),coalesce(pl.place_desc,'Others'),coalesce(p.proj_name,'Others')
+from employee e
+join designation d on e.desc_id=d.desc_id
+join place pl on e.place_id=pl.place_id
+join project p on e.proj_id = p.proj_id
+group by d.desc_name,pl.place_desc,p.proj_name;
+
+Vijaykumar	ASE	Chennai	Pepsi
+Suganya	ASE	Hyderabad	Microsoft
+Abhisheksingh	ASE	Mexico	Amazon
+Shalini	SE	Bangalore	ASG
+Kribakaran	SE	Hyderabad	ASG
+Raja	SE	Hyderabad	Microsoft
+Santosh	SSE	Bangalore	Cigna
+Avantika	SSE	Chennai	Amazon
+Divya	TL	Newyork	Pepsi
+
+
+5.
+select c.cust_name,s.salesman_name,c.city,s.city as salesman_city 
+from customer c 
+join salesman s on c.salesman_id=s.salesman_id 
+having c.city <>s.city;
+
+6.
+select s.name,s.city,s.monthly_target,sum(c.purchased_amount) as Amount_purchased_by_customer 
+from salesman s 
+join customer c on s.salesman_id=c.salesman_id 
+group by c.salesman_id 
+having s.monthly_target=c.purchased_amount;
+
+    
+8.select s.salesman_name,c.City,s.monthly_target,a.amt Amount_purchase_by_Customer from custome c left join 
+(select customer_id,sum(purchased_amount) amt from custome group by salesman_id) a on c.customer_id=a.customer_id  join 
+salesman s on s.salesman_id=c.salesman_id where a.amt<=(select avg(monthly_target) from salesman group by salesman_id);
+
+
+Salesman_name     city    Monthly_target   Amount_purchase_by_customer
+John        Chennai        10000        10000
+Abraham        Bangalore    21000        8000
+Vijay        Chennai        4000        5000
+Srinath        Mumbai        9000        9000
+
+
+
+9.
+select s.Salesman_Name,m.salesman_name Sales_Manager_Name,s.Monthly_target Manager_Monthly_target,a.amt  Amount_purchase_by_Customer
+from salesman s inner join salesman m on m.salesman_id=s.sales_manager_id join
+(select salesman_id,sum(purchased_amount) amt from custome group by salesman_id) a on a.salesman_id=s.salesman_id;
+
+
+10.
+select Student_name,city_name,Class from(
+select s.Student_name,c.city_name,cl.Class,
+row_number() over (partition by s.Student_name order by sd.Start_date) as rn_student_date 
+from Student as s
+inner join Student_details as sd on
+s.Student_Detail_id=sd.Student_Detail_id inner join City as c on sd.City_Id=c.City_Id
+inner join Class as cl on sd.Class_Id=cl.Class_Id)as a where rn_student_date=1;
+
+
+select * from customer;
+
+10	JamesMartin
+20	RickyAdams
+30	Ramanujam
+40	JyothiMahalingam
+50	AmaranJothi
+60	AkilanBala
+70	ArunKumar
+80	Dineshkumar
+
+
+13.
+select substr(cust_name,3,(length(cust_name)-4)) as cust_name from customer;
+
+mesMart
+ckyAda
+manuj
+othiMahaling
+aranJot
+ilanBa
+unKum
+neshkum
+
+14.
+select substr(cust_name,instr(cust_name,'a',1,2),(length(cust_name)-1)) as cust_name from customer;
+
+15.
+select cust_name from customer where lower(cust_name) like '%a%' and lower(cust_name) like '%u%' and lower(cust_name) like '%r%';
+
+Ramanujam
+ArunKumar
+Dineshkumar
+
+
+
+
+
+
+
+
+  

@@ -9,39 +9,94 @@ else sum(e.emp_sal)
 end sum_emp_sal
 from Department d join employee e on e.dept_id = d.dept_id group by d.dept_id;
 
+
+1	IT	9000
+2	Admin	11000
+
+
 2.
 select e.dept_id,COALESCE(d.dept_name,'Others'),sum(e.emp_sal) sum_emp_sal
 from Department d 
 join employee e on e.dept_id = d.dept_id 
 group by d.dept_id;
 
+
+1	IT	9000
+2	Admin	11000
+
+
 3.
 select emp_id,emp_name,manager_id,salary 
 from employe 
 where salary>=2700 and salary <=10000;
 
+3	Vinoth	1	3000
+4	Abhishek	2	5000
+5	Divya	3	6000
+8	Aarthi	4	2700
+
+
+select * from employe
+1	Vivek	8	11000
+2	Raj	1	2000
+3	Vinoth	1	3000
+4	Abhishek	2	5000
+5	Divya	3	6000
+6	Chitra	3	2350
+7	Devi	3	2500
+8	Aarthi	4	2700
+
 5.
 select emp_id,substr(emp_name,4) as derv_emp_name from employe;
+
+1	ek
+2	
+3	oth
+4	ishek
+5	ya
+6	tra
+7	i
+8	thi
 
 6.
 select emp_id,substr(emp_name,instr(emp_name,'h')) as derv_emp_name from employee;
 
+10	Vivek
+20	Raj
+3	h
+40	hishek
+50	Divya
+60	hitra
+
+
+
 7.
 select emp_id,emp_name,salary from employe order by salary desc limit 1,1;
 
+5	Divya	6000
+
+
 8.
 select emp_id,emp_name,salary from employe e where 3>=(select count(distinct salary) from employe e1 where e.salary<=e1.salary) order by e.salary;
+
+4	Abhishek	5000
+5	Divya	6000
+1	Vivek	11000
 
 9.
 select emp_id,emp_name,dept_name,salary from emp where (salary>3000 and dept_name='IT')
 or
 (salary>3400 and dept_name='Admin') order by emp_id desc;
 
+4	Abhishek	IT	5700
+2	Raj	Admin	3500
+
+
 10.
-select emp_id,emp_name,dept_name,salary from emp1 where emp_name like "%j%";
+select Emp_id,Emp_Name,Dept_Name,Salary from emp1 where Emp_Name LIKE '%j%';
 
 11.
-select emp_id,emp_name,dept_name,salary from employee where emp_name like "%j%k%m%"
+select Emp_Id,Emp_Name,Dept_Name,Salary from emp1 where Emp_Name like '%j%' OR Emp_Name like '%n%' or Emp_Name LIKE '%m%';
 
 
 

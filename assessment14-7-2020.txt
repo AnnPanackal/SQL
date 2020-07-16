@@ -1,0 +1,11 @@
+Ann ABraham Panackal
+11839843
+
+select emp_id,emp_name from employee a 
+where rowid <>(select max(rowid) from employee b where a.emp_id=b.emp_id);
+
+
+select * from (select rownum as rn,e.* from employee e) where mod(rn,2)=1;
+
+
+select substr("Ann",length("Ann"),1) from table_name;
