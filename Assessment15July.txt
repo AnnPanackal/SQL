@@ -1,0 +1,167 @@
+Ann ABraham Panackal
+11839843
+
+1.
+mysql> select name,marks from student order by marks desc limit 1,1;
++------+-------+
+| name | marks |
++------+-------+
+| Ram  |    96 |
++------+-------+
+1 row in set (0.07 sec)
+
+2.
+mysql> select count(*) c,name,marks from student group by name having c>1;
++---+-------+-------+
+| c | name  | marks |
++---+-------+-------+
+| 3 | Ram   |    69 |
+| 3 | Rahul |    87 |
++---+-------+-------+
+2 rows in set (0.09 sec)
+
+3.
+mysql> select * from student limit 1;
++------+--------+------+-------+
+| id   | std_id | name | marks |
++------+--------+------+-------+
+|    1 |      3 | Abhi |    99 |
++------+--------+------+-------+
+1 row in set (0.00 sec)
+
+
+4.
+mysql> select * from student where id =( select max(id) from student);
++------+--------+------+-------+
+| id   | std_id | name | marks |
++------+--------+------+-------+
+|    9 |      9 | Ram  |    96 |
++------+--------+------+-------+
+1 row in set (0.08 sec)
+
+5.
+mysql> select * from student limit 4;
++------+--------+-----------+-------+
+| id   | std_id | name      | marks |
++------+--------+-----------+-------+
+|    1 |      3 | Abhi      |    99 |
+|    2 |      5 | Geethasri |    89 |
+|    3 |      6 | Rahim     |    49 |
+|    4 |      9 | Ram       |    69 |
++------+--------+-----------+-------+
+4 rows in set (0.00 sec)
+
+6.
+mysql> select * from (
+    -> select * from student order by id desc limit 5
+    -> )v1
+    -> order by id;
++------+--------+-------+-------+
+| id   | std_id | name  | marks |
++------+--------+-------+-------+
+|    5 |      1 | Rahul |    87 |
+|    6 |      1 | Rahul |    96 |
+|    7 |      1 | Rahul |    96 |
+|    8 |      9 | Ram   |    96 |
+|    9 |      9 | Ram   |    96 |
++------+--------+-------+-------+
+5 rows in set (0.06 sec)
+
+7.
+
+mysql> select name,marks from student order by marks desc limit N-1,1;
+
+8.
+mysql>  select name, marks from student s
+    -> where 3>(
+    -> select count(distinct marks) from student s1
+    -> where s.marks<s1.marks)
+    -> order by s.marks desc;
++-----------+-------+
+| name      | marks |
++-----------+-------+
+| Abhi      |    99 |
+| Rahul     |    96 |
+| Rahul     |    96 |
+| Ram       |    96 |
+| Ram       |    96 |
+| Geethasri |    89 |
++-----------+-------+
+6 rows in set (0.05 sec)
+
+9.
+mysql> select * from(
+    -> select id,name,marks
+    -> from student) stud where
+    -> mod(id,2)=1;
++------+-------+-------+
+| id   | name  | marks |
++------+-------+-------+
+|    1 | Abhi  |    99 |
+|    3 | Rahim |    49 |
+|    5 | Rahul |    87 |
+|    7 | Rahul |    96 |
+|    9 | Ram   |    96 |
++------+-------+-------+
+5 rows in set (0.04 sec)
+
+
+10.
+mysql> select * from (
+    -> select id,name,marks from student
+    -> )stud where
+    -> mod(id,2)=0;
++------+-----------+-------+
+| id   | name      | marks |
++------+-----------+-------+
+|    2 | Geethasri |    89 |
+|    4 | Ram       |    69 |
+|    6 | Rahul     |    96 |
+|    8 | Ram       |    96 |
++------+-----------+-------+
+4 rows in set (0.00 sec)
+
+
+11.
+mysql> create view st as
+    -> select * from student;
+Query OK, 0 rows affected (0.95 sec)
+
+mysql> select * from st;
++------+--------+-----------+-------+
+| id   | std_id | name      | marks |
++------+--------+-----------+-------+
+|    1 |      3 | Abhi      |    99 |
+|    2 |      5 | Geethasri |    89 |
+|    3 |      6 | Rahim     |    49 |
+|    4 |      9 | Ram       |    69 |
+|    5 |      1 | Rahul     |    87 |
+|    6 |      1 | Rahul     |    96 |
+|    7 |      1 | Rahul     |    96 |
+|    8 |      9 | Ram       |    96 |
+|    9 |      9 | Ram       |    96 |
++------+--------+-----------+-------+
+9 rows in set (0.18 sec)
+
+12.
+mysql> select name from student
+    -> where name in (
+    -> select name from student where name like 'abhi' and name like 'geethasri');
+Empty set (0.00 sec)
+
+
+13.
+
+
+
+14.
+
+
+
+
+
+
+
+
+
+
